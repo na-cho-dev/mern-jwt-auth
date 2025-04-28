@@ -3,6 +3,7 @@ import {
   CONFLICT,
   INTERNAL_SERVER_ERROR,
   NOT_FOUND,
+  TOO_MANY_REQUESTS,
   UNAUTHORIZED,
 } from "../constants/http";
 import VerificationCodeType from "../constants/verificationCodeTypes";
@@ -13,10 +14,14 @@ import appAssert from "../utils/appAssert";
 import {
   fiveMinutesAgo,
   ONE_DAY_MS,
+  oneHourFromNow,
   oneYearFromNow,
   thirtyDaysFromNow,
 } from "../utils/date";
-import { getVerifyEmailTemplate } from "../utils/emailTemplates";
+import {
+  getPasswordResetTemplate,
+  getVerifyEmailTemplate,
+} from "../utils/emailTemplates";
 import {
   RefreshTokenPayload,
   refreshTokenSignOptions,
@@ -194,12 +199,40 @@ export const sendPasswordResetEmail = async (email: string) => {
   /// Check email rate limit
   const fiveMinAgo = fiveMinutesAgo();
   const count = await VerificationCodeModel.countDocuments({
-    userId: user._id
+    userId: user._id,
+    type: VerificationCodeType.PasswordReset,
+    createdAt: { $gt: fiveMinAgo },
   });
 
-  // Craete Verification code
+  appAssert(
+    count <= 1,
+    TOO_MANY_REQUESTS,
+    "Too many requests. Try again later."
+  );
+
+  // Create Verification code
+  const expiresAt = oneHourFromNow();
+  const verificationCode = await VerificationCodeModel.create({
+    userId: user._id,
+    type: VerificationCodeType.PasswordReset,
+    expiresAt,
+  });
 
   // Send Verification email
+  const url = `${APP_ORIGIN}/password/reset/${verificationCode._id}&exp=${expiresAt.getTime()}`;
+  const { data, error } = await sendMail({
+    to: user.email,
+    ...getPasswordResetTemplate(url),
+  });
+  appAssert(
+    data?.id,
+    INTERNAL_SERVER_ERROR,
+    `${error?.name} - ${error?.message}`
+  );
 
   // Return response
+  return {
+    url,
+    emailId: data?.id,
+  };
 };
