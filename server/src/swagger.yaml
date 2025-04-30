@@ -1,0 +1,200 @@
+openapi: 3.0.0
+
+info:
+  title: MERN JWT Auth API
+  version: 1.0.0
+  description: |
+    API documentation for the MERN JWT Auth Server.
+
+    **Note:** User and Session endpoints require authentication. Use the "Authorize" button and provide your JWT token.
+
+servers:
+  - url: http://localhost:3300
+
+tags:
+  - name: Auth
+    description: Authentication Endpoints
+  - name: User
+    description: User Endpoints
+  - name: Session
+    description: Session Endpoints
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+paths:
+  /api/auth/register:
+    post:
+      tags: [Auth]
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  minLength: 6
+                confirmPassword:
+                  type: string
+                  minLength: 6
+      responses:
+        "201":
+          description: User registered successfully
+        "400":
+          description: Invalid input
+
+  /api/auth/login:
+    post:
+      tags: [Auth]
+      summary: Login a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+      responses:
+        "200":
+          description: Login successful, returns tokens
+        "401":
+          description: Invalid credentials
+
+  /api/auth/refresh:
+    get:
+      tags: [Auth]
+      summary: Refresh access token using refresh token
+      responses:
+        "200":
+          description: New access token issued
+        "401":
+          description: Invalid or expired refresh token
+
+  /api/auth/logout:
+    get:
+      tags: [Auth]
+      summary: Logout the current user
+      responses:
+        "200":
+          description: Logout successful
+
+  /api/auth/email/verify/{code}:
+    get:
+      tags: [Auth]
+      summary: Verify user email with code
+      parameters:
+        - in: path
+          name: code
+          schema:
+            type: string
+          required: true
+          description: Verification code sent to email
+      responses:
+        "200":
+          description: Email verified successfully
+        "400":
+          description: Invalid or expired code
+
+  /api/auth/password/forgot:
+    post:
+      tags: [Auth]
+      summary: Send password reset email
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email]
+              properties:
+                email:
+                  type: string
+                  format: email
+      responses:
+        "200":
+          description: Password reset email sent
+        "404":
+          description: Email not found
+
+  /api/auth/password/reset:
+    post:
+      tags: [Auth]
+      summary: Reset password using reset token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [verificationCode, password]
+              properties:
+                verificationCode:
+                  type: string
+                password:
+                  type: string
+                  minLength: 6
+      responses:
+        "200":
+          description: Password reset successful
+        "400":
+          description: Invalid or expired token
+
+  /api/user:
+    get:
+      tags: [User]
+      summary: Get current user info
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Returns user info
+        "401":
+          description: Unauthorized
+
+  /api/sessions:
+    get:
+      tags: [Session]
+      summary: Get all user sessions
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Returns a list of sessions
+        "401":
+          description: Unauthorized
+
+  /api/sessions/{id}:
+    delete:
+      tags: [Session]
+      summary: Delete a session by ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Session ID
+      responses:
+        "200":
+          description: Session removed
+        "404":
+          description: Session not found

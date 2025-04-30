@@ -20,6 +20,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.13.2",
     "resend": "^4.3.0",
+    "yamljs": "^0.3.0",
     "zod": "^3.24.3"
   },
   "devDependencies": {
@@ -30,6 +31,7 @@
     "@types/jsonwebtoken": "^9.0.9",
     "@types/mongoose": "^5.11.96",
     "@types/node": "^22.14.1",
+    "@types/yamljs": "^0.2.34",
     "tsx": "^4.19.3",
     "typescript": "^5.8.3"
   }

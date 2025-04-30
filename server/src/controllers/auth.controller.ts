@@ -38,7 +38,7 @@ export const registerHandler = catchErrors(async (req, res) => {
   // Return Response
   return setAuthCookies({ res, accessToken, refreshToken })
     .status(CREATED)
-    .json(user);
+    .json({ user, accessToken });
 });
 
 export const loginHandler = catchErrors(async (req, res) => {
@@ -54,7 +54,7 @@ export const loginHandler = catchErrors(async (req, res) => {
   // Return Response
   return setAuthCookies({ res, accessToken, refreshToken })
     .status(OK)
-    .json({ message: "Login successful" });
+    .json({ message: "Login successful", user, accessToken });
 });
 
 export const logoutHandler = catchErrors(async (req, res) => {
