@@ -1,5 +1,5 @@
-import resend from "../config/resend";
-import { EMAIL_SENDER, NODE_ENV } from "../constants/env";
+import resend from "../config/resend.ts";
+import { EMAIL_SENDER, NODE_ENV } from "../constants/env.ts";
 
 type SendMailParams = {
   to: string;

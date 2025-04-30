@@ -1,4 +1,4 @@
-import catchErrors from "../utils/catchErrors";
+import catchErrors from "../utils/catchErrors.ts";
 import {
   createAccount,
   loginUser,
@@ -6,24 +6,24 @@ import {
   resetPassword,
   sendPasswordResetEmail,
   verifyEmail,
-} from "../services/auth.service";
-import { CREATED, OK, UNAUTHORIZED } from "../constants/http";
+} from "../services/auth.service.ts";
+import { CREATED, OK, UNAUTHORIZED } from "../constants/http.ts";
 import {
   clearAuthCookies,
   getAccessTokenOptions,
   getRefreshTokenOptions,
   setAuthCookies,
-} from "../utils/cookies";
+} from "../utils/cookies.ts";
 import {
   registerSchema,
   loginSchema,
   verificationCodeSchema,
   emailSchema,
   resetPasswordSchema,
-} from "./auth.schemas";
-import { verifyToken } from "../utils/jwt";
-import SessionModel from "../models/session.model";
-import appAssert from "../utils/appAssert";
+} from "./auth.schemas.ts";
+import { verifyToken } from "../utils/jwt.ts";
+import SessionModel from "../models/session.model.ts";
+import appAssert from "../utils/appAssert.ts";
 
 export const registerHandler = catchErrors(async (req, res) => {
   // Validate the request body against the schema

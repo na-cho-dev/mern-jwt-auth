@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { compareValue, hashValue } from "../utils/bcrypt";
+import { compareValue, hashValue } from "../utils/bcrypt.ts";
 
 export interface UserDocument extends mongoose.Document {
   _id: mongoose.Types.ObjectId;

@@ -7,7 +7,7 @@ import {
   resetPasswordHandler,
   sendPasswordResetHandler,
   verifyEmailHandler,
-} from "../controllers/auth.controller";
+} from "../controllers/auth.controller.ts";
 
 const authRoutes = Router();
 

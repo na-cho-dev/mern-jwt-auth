@@ -1,35 +1,35 @@
-import { APP_ORIGIN } from "../constants/env";
+import { APP_ORIGIN } from "../constants/env.ts";
 import {
   CONFLICT,
   INTERNAL_SERVER_ERROR,
   NOT_FOUND,
   TOO_MANY_REQUESTS,
   UNAUTHORIZED,
-} from "../constants/http";
-import VerificationCodeType from "../constants/verificationCodeTypes";
-import SessionModel from "../models/session.model";
-import UserModel from "../models/user.model";
-import VerificationCodeModel from "../models/verificationCode.model";
-import appAssert from "../utils/appAssert";
-import { hashValue } from "../utils/bcrypt";
+} from "../constants/http.ts";
+import VerificationCodeType from "../constants/verificationCodeTypes.ts";
+import SessionModel from "../models/session.model.ts";
+import UserModel from "../models/user.model.ts";
+import VerificationCodeModel from "../models/verificationCode.model.ts";
+import appAssert from "../utils/appAssert.ts";
+import { hashValue } from "../utils/bcrypt.ts";
 import {
   fiveMinutesAgo,
   ONE_DAY_MS,
   oneHourFromNow,
   oneYearFromNow,
   thirtyDaysFromNow,
-} from "../utils/date";
+} from "../utils/date.ts";
 import {
   getPasswordResetTemplate,
   getVerifyEmailTemplate,
-} from "../utils/emailTemplates";
+} from "../utils/emailTemplates.ts";
 import {
   RefreshTokenPayload,
   refreshTokenSignOptions,
   signToken,
   verifyToken,
-} from "../utils/jwt";
-import { sendMail } from "../utils/sendMail";
+} from "../utils/jwt.ts";
+import { sendMail } from "../utils/sendMail.ts";
 
 type createAccountParams = {
   email: string;

@@ -1,5 +1,5 @@
 import { CookieOptions, Response } from "express";
-import { fifteenMinutesFromNow } from "./date";
+import { fifteenMinutesFromNow } from "./date.ts";
 
 export const REFRESH_PATH = "/auth/refresh";
 const secure = process.env.NODE_ENV === "production";

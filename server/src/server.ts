@@ -1,15 +1,16 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
-import { connectDB } from "./config/db";
-import { APP_ORIGIN, NODE_ENV, PORT } from "./constants/env";
 import cookieParser from "cookie-parser";
-import errorHandler from "./middleware/errorHandler";
-import { OK } from "./constants/http";
-import authRoutes from "./routes/auth.route";
-import authenticate from "./middleware/authenticate";
-import userRoutes from "./routes/user.route";
-import sessionRoutes from "./routes/session.route";
+
+import { connectDB } from "./config/db.ts";
+import { APP_ORIGIN, NODE_ENV, PORT } from "./constants/env.ts";
+import errorHandler from "./middleware/errorHandler.ts";
+import { OK } from "./constants/http.ts";
+import authRoutes from "./routes/auth.route.ts";
+import authenticate from "./middleware/authenticate.ts";
+import userRoutes from "./routes/user.route.ts";
+import sessionRoutes from "./routes/session.route.ts";
 
 const app = express();
 
