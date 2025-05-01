@@ -9,7 +9,7 @@ info:
     **Note:** User and Session endpoints require authentication. Use the "Authorize" button and provide your JWT token.
 
 servers:
-  - url: http://localhost:3300
+  - url: https://mern-jwt-auth-7oqz.onrender.com
 
 tags:
   - name: Auth
