@@ -10,6 +10,9 @@ info:
 
 servers:
   - url: https://mern-jwt-auth-7oqz.onrender.com
+    description: Production Server
+  - url: http://localhost:3300
+    description: Local Development Server
 
 tags:
   - name: Auth
